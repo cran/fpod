@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Advanced usage</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Advanced usage</h1>
+
+
+
+<p>In most situations, you will most likely not be dealing with a single
+FPOD file, but a large number of files generated by many different pods
+sitting at different sites. This vignette demonstrates a few useful tips
+and tricks to deal with multiple files.</p>
+<div id="reading-multiple-files" class="section level1">
+<h1>Reading multiple files</h1>
+<p>First, load the package and get the path to some example data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(fpod)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">fp_example</span>(<span class="st">&quot;gullars_period1.FP3&quot;</span>) <span class="co"># &lt;- example FP3 file</span></span></code></pre></div>
+<p>Let’s imagine a scenario where we have 5 different FP3 files that we
+want to read. Since the <code>fpod</code> package only bundles one
+example data set, for the purposes of this vignette, we’ll “simulate”
+the multiple files situation by re-reading that same file multiple
+times, and running our combination logic on the duplicated data set.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>fpod_files <span class="ot">&lt;-</span> <span class="fu">rep</span>(fn, <span class="dv">5</span>) <span class="co"># simulate 5 FPOD files</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">basename</span>(fpod_files)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;gullars_period1.FP3&quot; &quot;gullars_period1.FP3&quot; &quot;gullars_period1.FP3&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [4] &quot;gullars_period1.FP3&quot; &quot;gullars_period1.FP3&quot;</span></span></code></pre></div>
+<p>As we can see, this gives us a character vector with five filenames.
+Normally, we wouldn’t want to manually specify our list of files to read
+in a variable like this, but rather generate the list automatically by
+calling <code>list.files()</code> on the directory where we’ve stored
+the FP3 files, e.g.:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#fpod_files &lt;- list.files(&quot;/users/andre/projects/fpod_troms/data&quot;, pattern = &quot;FP3$&quot;, full = TRUE, recursive = TRUE)</span></span></code></pre></div>
+<p>This would give us a list of all FP3 files that are stored in the
+directory specified, including those that might be tucked away in
+subfolders, and it would automatically detect any files that may have
+been added since the last time the code was run.</p>
+<p>But anyway, going back to the list we’re using for this vignette - we
+can now use, for example, <code>lapply</code> to easily read our list of
+files into R.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(fpod_files, fp_read)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">str</span>(dat, <span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span></code></pre></div>
+<p>Alternatively, we can pre-declare a list of the right length and
+populate it element by element via a conventional for-loop. It is not
+recommended to create an empty vector and add to it iteratively using
+<code>c()</code>, although it might be one intuitive way of doing this.
+The reason is that this would make R copy the data internally every time
+<code>c()</code> is called (i.e. in each iteration of the loop), and so
+it is highly inefficient to do this. For small data sets, it probably
+won’t be noticable, but the computational cost increases with increasing
+data size.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="at">length =</span> <span class="fu">length</span>(fpod_files))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(fpod_files)) {</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    dat[[i]] <span class="ot">&lt;-</span> <span class="fu">fp_read</span>(fpod_files[[i]])</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">str</span>(dat, <span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt;  $ :List of 4</span></span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt;   ..$ header:List of 15</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt;   ..$ env   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  14400 obs. of  7 variables:</span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="co">#&gt;   ..$ wav   :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  15995 obs. of  3 variables:</span></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt;   ..$ clicks:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  82637 obs. of  14 variables:</span></span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="co">#&gt;   .. ..- attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span></code></pre></div>
+<p>Personally, I prefer the <code>lapply</code> approach because I think
+it is cleaner, less verbose and possibly more computationally efficient.
+But both approaches demonstrated here are perfectly valid, as is evident
+from the identical output from <code>str</code> above.</p>
+</div>
+<div id="combining-data-from-multiple-files" class="section level1">
+<h1>Combining data from multiple files</h1>
+<p>The next step depends on what we want to do with the data. First,
+let’s say we want to just simply combine all NBHF clicks into one
+potentially enormous data.table.</p>
+<p>This is pretty simple:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;data.table&#39;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:base&#39;:</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;     %notin%</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>nbhf <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dat, <span class="cf">function</span>(x) {</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    x<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;NBHF&quot;</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span></code></pre></div>
+<p>Let’s have a look:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>nbhf[, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="co"># show only first 7 cols for brevity</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;           pod                time minute microsec click_no train_id species</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;         &lt;int&gt;              &lt;POSc&gt;  &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;  &lt;char&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;      1:  7660 2024-12-07 16:06:24    606 24099690      510        3    NBHF</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;      2:  7660 2024-12-07 16:06:24    606 24192330      511        3    NBHF</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;      3:  7660 2024-12-07 16:06:24    606 24276885      512        3    NBHF</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;      4:  7660 2024-12-07 16:06:24    606 24355150      513        3    NBHF</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;      5:  7660 2024-12-07 16:06:24    606 24425345      514        3    NBHF</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;     ---                                                                    </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 257946:  7660 2024-12-16 21:58:10  13918 10793125    82624        3    NBHF</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 257947:  7660 2024-12-16 21:58:10  13918 10796900    82625        3    NBHF</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 257948:  7660 2024-12-16 21:58:10  13918 10800740    82626        3    NBHF</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 257949:  7660 2024-12-16 21:58:10  13918 10804635    82627        3    NBHF</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; 257950:  7660 2024-12-16 21:58:10  13918 10808595    82628        3    NBHF</span></span></code></pre></div>
+<p>In some cases, you may run into trouble with empty FP3 files (files
+with no clicks registered), e.g. if the POD has been become
+activated/deactivated due to the tilt trigger, bad batteries, or has
+restarted for some other reason. Those files should probably be deleted,
+but if they aren’t, we can add a check in the body of the lapply-loop to
+handle them gracefully.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>nbhf <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dat, <span class="cf">function</span>(x) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    clicks <span class="ot">&lt;-</span> x<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;NBHF&quot;</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(clicks) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>        clicks <span class="ot">&lt;-</span> clicks[<span class="dv">0</span><span class="dt">L</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>    }</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    clicks</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span></code></pre></div>
+<p>In many cases however, you might want to summarize
+detection-positive-minutes (DPMs) for all KERNO-F categories (NBHF,
+OtherCet and Sonar), and buzz-positive- minutes (BPMs) for NBHF clicks.
+Here’s one way we could do that, again using <code>lapply</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>dpm <span class="ot">&lt;-</span> <span class="fu">lapply</span>(dat, <span class="cf">function</span>(x) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    nbhf <span class="ot">&lt;-</span> x<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;NBHF&quot;</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    dolphins <span class="ot">&lt;-</span> x<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;OtherCet&quot;</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    sonar <span class="ot">&lt;-</span> x<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;Sonar&quot;</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    nbhf<span class="sc">$</span>buzz <span class="ot">&lt;-</span> <span class="fu">fp_find_buzzes</span>(nbhf)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    nbhf_dpm <span class="ot">&lt;-</span> <span class="fu">fp_summarize</span>(nbhf)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    dol_dpm <span class="ot">&lt;-</span> <span class="fu">fp_summarize</span>(dolphins)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    sonar_dpm <span class="ot">&lt;-</span> <span class="fu">fp_summarize</span>(sonar)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>    <span class="co"># checks to handle cases of no detections for each category</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(nbhf_dpm<span class="sc">$</span>pod))) nbhf_dpm[, pod <span class="sc">:=</span> x<span class="sc">$</span>header<span class="sc">$</span>pod_id]</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(dol_dpm<span class="sc">$</span>pod))) dol_dpm[, pod <span class="sc">:=</span> x<span class="sc">$</span>header<span class="sc">$</span>pod_id]</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(sonar_dpm<span class="sc">$</span>pod))) sonar_dpm[, pod <span class="sc">:=</span> x<span class="sc">$</span>header<span class="sc">$</span>pod_id]</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>    </span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>    dpm <span class="ot">&lt;-</span> <span class="fu">merge</span>(nbhf_dpm, dol_dpm, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;pod&quot;</span>, <span class="st">&quot;time&quot;</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;_dol&quot;</span>))</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    dpm <span class="ot">&lt;-</span> <span class="fu">merge</span>(dpm, sonar_dpm, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;pod&quot;</span>, <span class="st">&quot;time&quot;</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;_sonar&quot;</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    dpm[, <span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;bpm_dol&quot;</span>, <span class="st">&quot;bpm_sonar&quot;</span>)]</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">rbindlist</span>()</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>dpm</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt;          pod                time   dpm   bpm dpm_dol dpm_sonar</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt;              &lt;POSc&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;     &lt;int&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt;     1:  7660 2024-12-07 06:01:00     0     0       0         0</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;     2:  7660 2024-12-07 06:02:00     0     0       0         0</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;     3:  7660 2024-12-07 06:03:00     0     0       0         0</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt;     4:  7660 2024-12-07 06:04:00     0     0       0         0</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt;     5:  7660 2024-12-07 06:05:00     0     0       0         0</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt;    ---                                                        </span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; 71996:  7660 2024-12-17 05:56:00     0     0       0         0</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; 71997:  7660 2024-12-17 05:57:00     0     0       0         0</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; 71998:  7660 2024-12-17 05:58:00     0     0       0         0</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; 71999:  7660 2024-12-17 05:59:00     0     0       0         0</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt; 72000:  7660 2024-12-17 06:00:00     0     0       0         0</span></span></code></pre></div>
+<p>Now we have our FPOD data in a format that is suited for
+plotting/analyses!</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

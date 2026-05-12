@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Overview and basic usage</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Overview and basic usage</h1>
+
+
+
+<div id="fpod" class="section level1">
+<h1>fpod</h1>
+<p>FPOD is an R package that enables directly loading FPOD and CPOD data
+files into R</p>
+</div>
+<div id="features" class="section level1">
+<h1>Features</h1>
+<p>The most important feature in this package is the capability of
+reading FPOD and CPOD data into R directly from the FPOD data files
+(i.e. the .CP1, .CP3, .FP1 and .FP3 files). The FPOD data files contain
+binary data, so they can’t trivially be read into R using the usual
+approach (e.g. fread or read.csv). This package decodes the binary data
+and imports all the data in one go (i.e. header/metadata, clicks, KERNO
+classifications, environmental data and pseudo-WAV data). It is then
+trivial to aggregate data as you please, e.g. DPMs per time block. The
+advantage of handling data processing in R is a long topic, but suffice
+it to say that it 1) simplifies things (many fewer steps, as different
+vars have to be exported in multiple goes in the official FPOD app), and
+more importantly, 2) makes data processing 100% transparent and
+reproducible.</p>
+<p>Note that at the time of writing, the fpod R package has only partial
+support for CPOD files - that is to say, it can only import click and
+classification data, but not environmental &amp; wav data. I plan to add
+this in the future.</p>
+</div>
+<div id="suggested-workflow" class="section level1">
+<h1>Suggested workflow</h1>
+<ol style="list-style-type: decimal">
+<li>Use the official FPOD app to import FPOD data from a FPOD memory
+card (this generates a FP1 file)</li>
+<li>Use the FPOD app to run the KERNO or KERNO-F classifier (this
+generates a CP3 or FP3 file)</li>
+<li>Perform checks, edits and validations (again, in the FPOD app)</li>
+<li>Use the FPOD R package (this package) to read the FP3 file data into
+R</li>
+<li>Run your data processing and analyses in R</li>
+</ol>
+</div>
+<div id="basic-usage" class="section level1">
+<h1>Basic usage</h1>
+<p>Some basic examples are provided below. See ?fp_read for details.</p>
+<p>First, let’s load the package and read a FP3 file. For this example,
+we’ll use the sample data bundled with the package, which contains 10
+days of FPOD data from a quiet site in northern Troms county, in
+Norway.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(fpod)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">fp_example</span>(<span class="st">&quot;gullars_period1.FP3&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fp_read</span>(fn)</span></code></pre></div>
+<p>This gives us a list with four elements, each of which is a
+data.table (however, the WAV element may be missing depending on the
+specific file being read).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">names</span>(dat)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;header&quot; &quot;env&quot;    &quot;wav&quot;    &quot;clicks&quot;</span></span></code></pre></div>
+<p>Let’s inspect each of these elements in turn.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">str</span>(dat<span class="sc">$</span>header)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; List of 15</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;  $ pod_id          : int 7660</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;  $ first_logged_min: int 65709000</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;  $ last_logged_min : int 65723400</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  $ water_depth     : int 30</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  $ deployment_depth: int 0</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  $ lat_text        : chr &quot;70,03332&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  $ lon_text        : chr &quot;18,9162&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  $ location_text   : chr &quot;&quot;</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  $ notes_text      : chr &quot;&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  $ gmt_text        : chr &quot;&quot;</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  $ pic_ver         : raw 23</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  $ fpga_ver        : int 1034</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;  $ extended_amps   : logi TRUE</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;  $ clicks_in_fp1   : num 48680158</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  $ filename        : chr &quot;C:/Users/a21997/AppData/Local/Temp/RtmpERr303/Rinst12b4324f160d/fpod/extdata/gullars_period1.FP3&quot;</span></span></code></pre></div>
+<p>We can see that this gives us a mix of technical and deployment
+specific metadata. In fact, there’s a lot more information stored in the
+CPOD/FPOD headers that the fpod package currently doesn’t care about.
+Also, the specific information available may vary between CPOD and FPOD
+files. Note that the time-specification stored in
+<code>first_logged_min</code> and <code>last_logged_min</code> both
+refer to the minutes elapsed since 1900-01-01. We can easily convert
+this to a more human-friendly date format:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">as.POSIXct</span>(<span class="st">&quot;1900-01-01&quot;</span>, <span class="at">tz=</span><span class="st">&quot;&quot;</span>) <span class="sc">+</span> dat<span class="sc">$</span>header<span class="sc">$</span>first_logged_min <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2024-12-07 06:00:00 CET&quot;</span></span></code></pre></div>
+<p>We multiply by 60 since R interprets the number as seconds in POSIXct
+arithmetic.</p>
+<p>Next we have a data.table called <code>env</code>. This table lists
+the angle from vertical (in degrees) of the pod, the temperature
+recorded by the pod, as well as battery voltage (in desivolts) for each
+of the two battery columns, per minute. The minutes are relative to when
+the pod was started, i.e. <code>first_logged_min</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">str</span>(dat<span class="sc">$</span>env)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   14400 obs. of  7 variables:</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;  $ minute : int  1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;  $ angle  : int  36 36 28 36 35 26 32 32 34 32 ...</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  $ degC   : int  6 6 6 6 6 6 6 6 6 6 ...</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  $ bat1v  : num  1.58 1.58 1.58 1.58 1.58 1.58 1.58 1.58 1.6 1.58 ...</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  $ bat2v  : num  1.4 1.38 1.38 1.4 1.4 1.4 1.38 1.38 1.38 1.38 ...</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  $ bat_use: int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  $ pod_on : logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt;</span></span></code></pre></div>
+<p>Now let’s turn our attention to the next element: The wav data.table
+holds extra information (inter-peak-intervals, IPI + sound pressure
+level, SPL) for a sample of recorded clicks, usually less than 1%, but
+possibly more or less depending on user configuration.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">str</span>(dat<span class="sc">$</span>wav)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   15995 obs. of  3 variables:</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;  $ click_no: int  547 547 547 547 547 547 547 736 736 736 ...</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  $ IPI     : int  255 29 29 30 30 31 34 255 255 255 ...</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;  $ SPL     : int  8 37 45 46 40 27 24 3 12 4 ...</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt;</span></span></code></pre></div>
+<p>Finally, and most importantly, we have the clicks data:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str</span>(dat<span class="sc">$</span>clicks)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   82637 obs. of  14 variables:</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt;  $ pod          : int  7660 7660 7660 7660 7660 7660 7660 7660 7660 7660 ...</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;  $ time         : POSIXct, format: &quot;2024-12-07 12:42:11&quot; &quot;2024-12-07 12:42:11&quot; ...</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;  $ minute       : int  402 402 402 402 402 402 402 402 402 402 ...</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;  $ microsec     : int  11382235 11467200 11552250 11637180 11722190 11892225 11977090 12062095 12147010 12231990 ...</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;  $ click_no     : int  1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;  $ train_id     : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;  $ species      : chr  &quot;Unclassed&quot; &quot;Unclassed&quot; &quot;Unclassed&quot; &quot;Unclassed&quot; ...</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;  $ quality_level: int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;  $ echo         : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;  $ ncyc         : int  4 6 6 12 5 3 3 3 4 10 ...</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;  $ pkat         : int  0 4 3 7 3 0 2 2 0 3 ...</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;  $ khz          : num  98 114 133 103 111 114 103 100 108 103 ...</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;  $ amp_at_max   : int  30 43 25 44 30 22 26 24 34 37 ...</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  $ has_wav      : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span></code></pre></div>
+<p>And that’s pretty much it. Now you have your CPOD/FPOD data in R and
+can do whatever you want with it. Most of the columns listed above
+should be fairly self-explanatory if you’re used to working with FPOD
+data. If not, or if you just need a reminder, you can always see
+?fp_read for a detailed overview. Note that if you’re reading a CP1 or
+FP1 file, then the species column will be all NAs, since there is no
+information from the KERNO classifier in those files.</p>
+</div>
+<div id="common-tasks" class="section level1">
+<h1>Common tasks</h1>
+<p>The fpod package does provide a couple of convenience functions to
+facilitate common tasks. We’ll have a look at those here.</p>
+<p>First, we can use <code>fp_summarize()</code> to sum up
+detection-positive-minutes (DPMs) for a set of clicks. A DPM is defined
+as 1 if we have at least one detection during that minute; 0 otherwise.
+Usually, we will want to first subset only the clicks we care about for
+our analysis. For example, let’s calculate DPMs for NBHF (narrow-band,
+high frequency) clicks of quality 2 or better. For the region where
+these data were collected, this corresponds to selecting only harbour
+porpoise clicks.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>nbhf <span class="ot">&lt;-</span> dat<span class="sc">$</span>clicks[species <span class="sc">==</span> <span class="st">&quot;NBHF&quot;</span> <span class="sc">&amp;</span> quality_level <span class="sc">&gt;=</span> <span class="dv">2</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>dpm <span class="ot">&lt;-</span> <span class="fu">fp_summarize</span>(nbhf)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">print</span>(dpm)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;          pod                time   dpm   bpm</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt;              &lt;POSc&gt; &lt;int&gt; &lt;int&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt;     1:  7660 2024-12-07 06:01:00     0     0</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;     2:  7660 2024-12-07 06:02:00     0     0</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;     3:  7660 2024-12-07 06:03:00     0     0</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;     4:  7660 2024-12-07 06:04:00     0     0</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;     5:  7660 2024-12-07 06:05:00     0     0</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;    ---                                      </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; 14396:  7660 2024-12-17 05:56:00     0     0</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 14397:  7660 2024-12-17 05:57:00     0     0</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 14398:  7660 2024-12-17 05:58:00     0     0</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 14399:  7660 2024-12-17 05:59:00     0     0</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 14400:  7660 2024-12-17 06:00:00     0     0</span></span></code></pre></div>
+<p>Of course, there were no detections in the first and last 5 minutes
+of the pod’s recording, so all we see are zeros in this preview. But we
+can expect some rows to be nonzero.</p>
+<p>Let’s just verify to be sure.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">sum</span>(dpm<span class="sc">$</span>dpm)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; [1] 472</span></span></code></pre></div>
+<p>There you go!</p>
+<p>You may also have noticed there’s another column <code>bpm</code> in
+the data.table returned by <code>fp_summarize()</code>. This brings us
+to the other convenience function in <code>fpod</code>,
+<code>fp_find_buzzes()</code>. This function tries to do exactly what
+the name implies - find NBHF buzzes, which are commonly taken to be
+indicative of feeding. See ?fp_find_buzzes for some information on
+exactly how this is achieved.</p>
+<p>Similar to <code>fp_summarize()</code>, <code>fp_find_buzzes()</code>
+should be passed the subset of clicks for which we want to find buzzes.
+While it only makes sense to use this on NBHF clicks, the function
+doesn’t care about that, it will try to find buzzes for whatever clicks
+data you give it.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>buzz <span class="ot">&lt;-</span> <span class="fu">fp_find_buzzes</span>(nbhf)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">str</span>(buzz)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;  int [1:43216] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">table</span>(buzz)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; buzz</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;     0     1 </span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 34321  8895</span></span></code></pre></div>
+<p>We can see that the function gives us a vector of 1s and 0s. You’ll
+find that the length of this vector is identical to the number of rows
+in the clicks data.table that we used.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">nrow</span>(nbhf)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; [1] 43216</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">length</span>(buzz)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; [1] 43216</span></span></code></pre></div>
+<p>So we now have a classification for each NBHF click that tells us
+that it was or wasn’t a feeding buzz, with value 1 and 0,
+respectively.</p>
+<p>We can add the buzz info to the NBHF clicks data.table we’re
+investigating.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>nbhf<span class="sc">$</span>buzz <span class="ot">&lt;-</span> buzz</span></code></pre></div>
+<p>If we now re-execute <code>fp_summarize()</code> on the updated
+data.table, we’ll find that it can see and understand the buzz column,
+and it will handle buzzes in a similar way as it handles detections; by
+summing them up per minute.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>dpm2 <span class="ot">&lt;-</span> <span class="fu">fp_summarize</span>(nbhf)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">sum</span>(dpm2<span class="sc">$</span>dpm)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; [1] 472</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">sum</span>(dpm2<span class="sc">$</span>bpm)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; [1] 167</span></span></code></pre></div>
+<p>Now that we have NBHF detections and buzzes in minute-resolution, we
+can use that as a basis to further aggregate data to some time scale
+that we think is sensible for our purposes, whether it be plotting
+trends or statistical analysis. In this case, let’s sum up DPMs and BPMs
+per day.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>dpm_per_day <span class="ot">&lt;-</span> dpm2[, .(<span class="at">dpm =</span> <span class="fu">sum</span>(dpm), <span class="at">bpm =</span> <span class="fu">sum</span>(bpm)), .(<span class="at">date =</span> <span class="fu">as.Date</span>(time))]</span></code></pre></div>
+<p>Let’s illustrate these data with a simple stacked barplot. Note that
+we subtract BPM from DPMs to avoid double-counting detections, since a
+BPM implies a DPM (a porpoise must obviously have been detected for
+there to be porpoise clicks to classify as buzzes).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>    mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(dpm_per_day<span class="sc">$</span>dpm <span class="sc">-</span> dpm_per_day<span class="sc">$</span>bpm, dpm_per_day<span class="sc">$</span>bpm), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    <span class="fu">barplot</span>(mat, <span class="at">las =</span> <span class="dv">2</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">250</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;tomato2&quot;</span>, <span class="st">&quot;dodgerblue4&quot;</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>            <span class="at">names.arg =</span> <span class="fu">format</span>(dpm_per_day<span class="sc">$</span>date, <span class="st">&quot;%b %d&quot;</span>), <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;DPMs&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">inset =</span> <span class="fl">0.05</span>, <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">&quot;tomato2&quot;</span>, <span class="st">&quot;dodgerblue4&quot;</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>           <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;DPM&quot;</span>, <span class="st">&quot;BPM&quot;</span>))</span></code></pre></div>
+<p><img role="img" aria-label src="data:image/png;base64,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" alt width="100%" />
+We see that we have the most NBHF detections on December 11, when we
+have almost 200 DPMs. This corresponds to 200/1440 = 14%, i.e. porpoises
+were detected at this site for 14% of the day that day. The highest
+proportion of feeding buzzes occurred four days later, on December 15,
+when more than half of all clicks have been classified as feeding
+buzzes.</p>
+<p>Ok, so that’s an overview of the three functions that are currently
+available in the fpod package. The package really is primarily meant to
+get the CP3/FP3 data into R in a streamlined manner, and to help
+facilitate transparency and reproducible code. But the formal analysis
+is left to the user! Have a look at <code>?fp_read</code>,
+<code>?fp_find_buzzes</code> and <code>fp_summarize</code> for more
+details on each of these functions.</p>
+</div>
+<div id="disclaimer" class="section level1">
+<h1>Disclaimer</h1>
+<p>Note that this package is not affiliated with the manufacturer of the
+CPOD and FPOD <a href="https://www.chelonia.co.uk/">Chelonia</a>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
