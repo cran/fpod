@@ -411,7 +411,7 @@ specific file being read).</p>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  $ fpga_ver        : int 1034</span></span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;  $ extended_amps   : logi TRUE</span></span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt;  $ clicks_in_fp1   : num 48680158</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  $ filename        : chr &quot;C:/Users/a21997/AppData/Local/Temp/RtmpERr303/Rinst12b4324f160d/fpod/extdata/gullars_period1.FP3&quot;</span></span></code></pre></div>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;  $ filename        : chr &quot;C:/Users/a21997/AppData/Local/Temp/RtmpohshY5/Rinst4d5010755969/fpod/extdata/gullars_period1.FP3&quot;</span></span></code></pre></div>
 <p>We can see that this gives us a mix of technical and deployment
 specific metadata. In fact, there’s a lot more information stored in the
 CPOD/FPOD headers that the fpod package currently doesn’t care about.
@@ -438,7 +438,7 @@ the pod was started, i.e. <code>first_logged_min</code>.</p>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  $ bat2v  : num  1.4 1.38 1.38 1.4 1.4 1.4 1.38 1.38 1.38 1.38 ...</span></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  $ bat_use: int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  $ pod_on : logi  TRUE TRUE TRUE TRUE TRUE TRUE ...</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt;</span></span></code></pre></div>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x000001a487150c20&gt;</span></span></code></pre></div>
 <p>Now let’s turn our attention to the next element: The wav data.table
 holds extra information (inter-peak-intervals, IPI + sound pressure
 level, SPL) for a sample of recorded clicks, usually less than 1%, but
@@ -448,7 +448,7 @@ possibly more or less depending on user configuration.</p>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;  $ click_no: int  547 547 547 547 547 547 547 736 736 736 ...</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  $ IPI     : int  255 29 29 30 30 31 34 255 255 255 ...</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;  $ SPL     : int  8 37 45 46 40 27 24 3 12 4 ...</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt;</span></span></code></pre></div>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x000001a487150c20&gt;</span></span></code></pre></div>
 <p>Finally, and most importantly, we have the clicks data:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str</span>(dat<span class="sc">$</span>clicks)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   82637 obs. of  14 variables:</span></span>
@@ -466,7 +466,7 @@ possibly more or less depending on user configuration.</p>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;  $ khz          : num  98 114 133 103 111 114 103 100 108 103 ...</span></span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;  $ amp_at_max   : int  30 43 25 44 30 22 26 24 34 37 ...</span></span>
 <span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  $ has_wav      : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x00000253ec152160&gt; </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;pointer: 0x000001a487150c20&gt; </span></span>
 <span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;start&quot;)= POSIXct[1:1], format: &quot;2024-12-07 06:00:00&quot;</span></span>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;on&quot;)= int [1:14400] 1 2 3 4 5 6 7 8 9 10 ...</span></span></code></pre></div>
 <p>And that’s pretty much it. Now you have your CPOD/FPOD data in R and
