@@ -1,7 +1,7 @@
 Package: fpod
 Title: Read and Process 'FPOD' and 'CPOD' Data
-Version: 1.0.2
-Date: 2026-09-14
+Version: 1.1.0
+Date: 2026-11-07
 Authors@R: 
     person(given = "André", 
            family = "Moan", 
@@ -32,8 +32,8 @@ VignetteBuilder: knitr
 URL: https://github.com/supermoan/fpod
 BugReports: https://github.com/supermoan/fpod/issues
 NeedsCompilation: yes
-Packaged: 2026-09-14 08:54:42 UTC; a21997
+Packaged: 2026-11-07 11:24:53 UTC; a21997
 Author: André Moan [aut, cre, cph]
 Maintainer: André Moan <andre.moan@hi.no>
 Repository: CRAN
-Date/Publication: 2026-09-14 09:10:02 UTC
+Date/Publication: 2026-11-07 11:40:02 UTC
